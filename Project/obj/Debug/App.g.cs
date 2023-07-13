@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using ScriptRepoGUI;
+using OSDCloudScriptsGUI;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -32,7 +32,7 @@ using System.Windows.Shapes;
 using System.Windows.Shell;
 
 
-namespace ScriptRepoGUI {
+namespace OSDCloudScriptsGUI {
     
     
     /// <summary>
@@ -61,7 +61,7 @@ namespace ScriptRepoGUI {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main() {
-            ScriptRepoGUI.App app = new ScriptRepoGUI.App();
+            OSDCloudScriptsGUI.App app = new OSDCloudScriptsGUI.App();
             app.InitializeComponent();
             app.Run();
         }

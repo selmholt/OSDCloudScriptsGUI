@@ -2,18 +2,18 @@
 
 [CmdletBinding()]
 param()
-$ScriptName = 'scriptrepo.osdcloud.com'
-$ScriptVersion = '23.7.8.1'
+$ScriptName = 'scripts.osdcloud.com'
+$ScriptVersion = '23.7.12.1'
 
-# ScriptRepo
-$FileName = 'ScriptRepo.zip'
-$Url = 'https://github.com/OSDeploy/ScriptRepo/archive/refs/heads/main.zip'
+# OSDCloudScripts
+$FileName = 'OSDCloudScripts.zip'
+$Url = 'https://github.com/OSDeploy/OSDCloudScripts/archive/refs/heads/main.zip'
 
-# ScriptRepoGUI
-$GUIFileName = 'ScriptRepoGUI.zip'
-$GUIUrl = 'https://github.com/OSDeploy/ScriptRepoGUI/archive/refs/heads/main.zip'
+# OSDCloudScriptsGUI
+$GUIFileName = 'OSDCloudScriptsGUI.zip'
+$GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/main.zip'
 
-#region ScriptRepo
+#region OSDCloudScripts
     $OutFile = Join-Path $env:TEMP $FileName
     # Remove existing Zip file
     if (Test-Path $OutFile) {
@@ -24,10 +24,10 @@ $GUIUrl = 'https://github.com/OSDeploy/ScriptRepoGUI/archive/refs/heads/main.zip
     Invoke-WebRequest -Uri $Url -OutFile $OutFile
 
     if (Test-Path $OutFile) {
-        Write-Host -ForegroundColor Green "[+] ScriptRepo downloaded to $OutFile"
+        Write-Host -ForegroundColor Green "[+] OSDCloudScripts downloaded to $OutFile"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] ScriptRepo could not be downloaded"
+        Write-Host -ForegroundColor Red "[!] OSDCloudScripts could not be downloaded"
         Break
     }
 
@@ -39,25 +39,25 @@ $GUIUrl = 'https://github.com/OSDeploy/ScriptRepoGUI/archive/refs/heads/main.zip
     }
     Expand-Archive -Path $OutFile -DestinationPath $DestinationPath -Force
     if (Test-Path $DestinationPath) {
-        Write-Host -ForegroundColor Green "[+] ScriptRepo expanded to $DestinationPath"
+        Write-Host -ForegroundColor Green "[+] OSDCloudScripts expanded to $DestinationPath"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] ScriptRepo could not be expanded to $DestinationPath"
+        Write-Host -ForegroundColor Red "[!] OSDCloudScripts could not be expanded to $DestinationPath"
         Break
     }
 
     # Set Scripts Path
-    $ScriptRepository = Get-ChildItem -Path $DestinationPath -Directory | Select-Object -First 1 -ExpandProperty FullName
-    if (Test-Path $ScriptRepository) {
-        Write-Host -ForegroundColor Green "[+] ScriptRepo is set to $ScriptRepository"
+    $ScriptFiles = Get-ChildItem -Path $DestinationPath -Directory | Select-Object -First 1 -ExpandProperty FullName
+    if (Test-Path $ScriptFiles) {
+        Write-Host -ForegroundColor Green "[+] OSDCloudScripts is set to $ScriptFiles"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] ScriptRepo could not be created at $ScriptRepository"
+        Write-Host -ForegroundColor Red "[!] OSDCloudScripts could not be created at $ScriptFiles"
         Break
     }
 #endregion
 
-#region ScriptRepoGUI
+#region OSDCloudScriptsGUI
     $GUIOutFile = Join-Path $env:TEMP $GUIFileName
     # Remove existing Zip file
     if (Test-Path $GUIOutFile) {
@@ -68,10 +68,10 @@ $GUIUrl = 'https://github.com/OSDeploy/ScriptRepoGUI/archive/refs/heads/main.zip
     Invoke-WebRequest -Uri $GUIUrl -OutFile $GUIOutFile
 
     if (Test-Path $GUIOutFile) {
-        Write-Host -ForegroundColor Green "[+] ScriptRepoGUI downloaded to $GUIOutFile"
+        Write-Host -ForegroundColor Green "[+] OSDCloudScriptsGUI downloaded to $GUIOutFile"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] ScriptRepoGUI could not be downloaded"
+        Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI could not be downloaded"
         Break
     }
 
@@ -83,15 +83,15 @@ $GUIUrl = 'https://github.com/OSDeploy/ScriptRepoGUI/archive/refs/heads/main.zip
     }
     Expand-Archive -Path $GUIOutFile -DestinationPath $DestinationPath -Force
     if (Test-Path $DestinationPath) {
-        Write-Host -ForegroundColor Green "[+] ScriptRepoGUI expanded to $DestinationPath"
+        Write-Host -ForegroundColor Green "[+] OSDCloudScriptsGUI expanded to $DestinationPath"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] ScriptRepoGUI could not be expanded to $DestinationPath"
+        Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI could not be expanded to $DestinationPath"
         Break
     }
 
     # PowerShell Module
-    $ModulePath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\Modules\ScriptRepoGUI"
+    $ModulePath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\Modules\OSDCloudScriptsGUI"
     if (Test-Path $ModulePath) {
         Remove-Item $ModulePath -Recurse -Force
     }
@@ -100,17 +100,17 @@ $GUIUrl = 'https://github.com/OSDeploy/ScriptRepoGUI/archive/refs/heads/main.zip
     $SourceModuleRoot = Get-ChildItem -Path $DestinationPath -Directory | Select-Object -First 1 -ExpandProperty FullName
     Copy-Item -Path $SourceModuleRoot -Destination $ModulePath -Recurse -Force -ErrorAction SilentlyContinue
     if (Test-Path $ModulePath) {
-        Write-Host -ForegroundColor Green "[+] ScriptRepoGUI Module copied to $ModulePath"
+        Write-Host -ForegroundColor Green "[+] OSDCloudScriptsGUI Module copied to $ModulePath"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] ScriptRepoGUI Module could not be copied to $ModulePath"
+        Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI Module could not be copied to $ModulePath"
         Break
     }
-    Import-Module ScriptRepoGUI -Force
-    Write-Host -ForegroundColor Green "[+] Start-ScriptRepoGUI -Path $ScriptRepository"
+    Import-Module OSDCloudScriptsGUI -Force
+    Write-Host -ForegroundColor Green "[+] Start-OSDCloudScriptsGUI -Path $ScriptFiles"
 #endregion
 
 Write-Host -ForegroundColor Cyan "To start a new PowerShell session, type 'start powershell' and press enter"
-Write-Host -ForegroundColor Cyan "Start-ScriptRepoGUI can be run in the new PowerShell window"
+Write-Host -ForegroundColor Cyan "Start-OSDCloudScriptsGUI can be run in the new PowerShell window"
 
-Start-ScriptRepoGUI -Path $ScriptRepository
+Start-OSDCloudScriptsGUI -Path $ScriptFiles

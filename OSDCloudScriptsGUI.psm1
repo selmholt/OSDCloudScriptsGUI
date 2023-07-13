@@ -1,15 +1,15 @@
-function Start-ScriptRepoGUI {
+function Start-OSDCloudScriptsGUI {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false)]
         [ValidateScript({Test-Path -Path $_ -PathType Container})]
-        [string]$Path = "$env:Temp\ScriptRepo\ScriptRepo-main"
+        [string]$Path = "$env:Temp\OSDCloudScripts\OSDCloudScripts-main"
     )
     #================================================
     #   Set Global Variables
     #================================================
     $Global:OSDPadBranding = @{
-        Title = 'ScriptRepoGUI'
+        Title = 'OSDCloudScriptsGUI'
         Color = '#01786A'
     }
     #=================================================
@@ -24,7 +24,7 @@ function Start-ScriptRepoGUI {
     #=================================================
     #   Create Object
     #=================================================
-    $Global:ScriptRepoGUI = foreach ($Item in $ScriptFiles) {
+    $Global:OSDCloudScriptsGUI = foreach ($Item in $ScriptFiles) {
         $FullName = $Item.FullName
         $DirectoryName = $Item.DirectoryName
         $RelativePath = $Item.FullName -replace [regex]::Escape("$Path\"), ''
@@ -55,9 +55,9 @@ function Start-ScriptRepoGUI {
         New-Object -TypeName PSObject -Property $ObjectProperties
     }
     #=================================================
-    #   ScriptRepoGUI.ps1
+    #   OSDCloudScriptsGUI.ps1
     #=================================================
     & "$($MyInvocation.MyCommand.Module.ModuleBase)\Project\MainWindow.ps1"
     #=================================================
 }
-Export-ModuleMember -Function Start-ScriptRepoGUI
+Export-ModuleMember -Function Start-OSDCloudScriptsGUI

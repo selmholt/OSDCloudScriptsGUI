@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ScriptRepoGUI
+namespace OSDCloudScriptsGUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

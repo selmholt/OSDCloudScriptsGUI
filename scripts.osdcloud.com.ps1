@@ -4,6 +4,7 @@
 param()
 $ScriptName = 'scripts.osdcloud.com'
 $ScriptVersion = '23.7.16.1'
+Write-Host -ForegroundColor Cyan "[+] $ScriptName version $ScriptVersion"
 
 # OSDCloudScripts
 $FileName = 'OSDCloudScripts.zip'

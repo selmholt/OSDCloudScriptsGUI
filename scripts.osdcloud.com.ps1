@@ -113,7 +113,7 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
         Import-Module $ModulePath -Force -Verbose
     }
     else {
-        $ModulePath = "$env:TEMP\OSDCloudScriptsGUI\OSDCloudScriptsGUI-main"
+        $ModulePath = "$env:TEMP\OSDCloudScriptsGUI\OSDCloudScriptsGUI-main\OSDCloudScriptsGUI.psm1"
         Import-Module $ModulePath -Force -Verbose
     }
 

@@ -179,40 +179,6 @@
                           Margin="0,5"
                           Padding="2" >
                     </ComboBox>
-                    <Label Name="FilterLabel"
-                       Content="Filter"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       Foreground="#0096D6"
-                       Margin="20,5,0,5"
-                       Padding="2"
-                       Width="60"
-                       FlowDirection="RightToLeft" />
-                    <TextBox Name="ScriptFilter"
-                        Text=""
-                        AcceptsReturn="False"
-                        AcceptsTab="True"
-                        FontSize="16"
-                        Margin="5"
-                        Padding="10,2"
-                        Width = "Auto" />
-                    <Label Name="ContainsLabel"
-                       Content="Contains"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       Foreground="#0096D6"
-                       Margin="5,5,0,5"
-                       Padding="2"
-                       Width="80"
-                       FlowDirection="RightToLeft" />
-                    <TextBox Name="ScriptContains"
-                        Text=""
-                        AcceptsReturn="False"
-                        AcceptsTab="True"
-                        FontSize="16"
-                        Margin="5"
-                        Padding="10,2"
-                        Width = "Auto" />
                 </StackPanel>
             </StackPanel>
 <!-- Row 3 GridLine -->

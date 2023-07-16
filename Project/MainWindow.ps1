@@ -359,10 +359,10 @@ $formMainWindowControlStartButton.add_Click({
         $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
         Write-Host -ForegroundColor DarkCyan "Finding script parameters with Ast"
 
-        $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
+        $Global:OSDScriptBlock.Ast.ParamBloc.Parameters | ForEach-Object {
             Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
         }
-        $Global:OSDScriptBlock.Ast.ScriptRequirements
+        Write-Host $Global:OSDScriptBlock.Ast.ScriptRequirements
 
 
         #$Global:XamlWindow.Close()

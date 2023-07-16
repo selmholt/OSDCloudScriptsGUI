@@ -12,7 +12,7 @@ $Url = 'https://github.com/OSDeploy/OSDCloudScripts/archive/refs/heads/main.zip'
 
 # OSDCloudScriptsGUI
 $GUIFileName = 'OSDCloudScriptsGUI.zip'
-$GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/main.zip'
+$GUIUrl = 'https://github.com/OSDeploy/OSDCloudScripts.vs/archive/refs/heads/main.zip'
 
 #region OSDCloudScripts
     $OutFile = Join-Path $env:TEMP $FileName

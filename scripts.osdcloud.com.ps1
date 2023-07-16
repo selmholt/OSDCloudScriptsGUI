@@ -111,8 +111,8 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
             Break
         }
         try {
-            Import-Module $ModulePath -Force
             Write-Host -ForegroundColor Green "[+] Import-Module $ModulePath -Force"
+            Import-Module $ModulePath -Force -ErrorAction Stop
         }
         catch {
             Write-Host -ForegroundColor Red "[!] Import-Module $ModulePath -Force"
@@ -123,8 +123,8 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
     else {
         $ModulePath = "$env:TEMP\OSDCloudScriptsGUI\OSDCloudScriptsGUI-main\OSDCloudScriptsGUIdd.psm1"
         try {
-            Import-Module $ModulePath -Force
             Write-Host -ForegroundColor Green "[+] Import-Module $ModulePath -Force"
+            Import-Module $ModulePath -Force -ErrorAction Stop
         }
         catch {
             Write-Host -ForegroundColor Red "[!] Import-Module $ModulePath -Force"

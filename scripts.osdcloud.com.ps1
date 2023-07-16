@@ -3,7 +3,7 @@
 [CmdletBinding()]
 param()
 $ScriptName = 'scripts.osdcloud.com'
-$ScriptVersion = '23.7.16.3'
+$ScriptVersion = '23.7.16.4'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
 # OSDCloudScripts
@@ -111,24 +111,24 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
             Break
         }
         try {
-            Write-Host -ForegroundColor Green "[+] Import-Module $ModulePath -Force"
             Import-Module $ModulePath -Force -ErrorAction Stop
+            Write-Host -ForegroundColor Green "[+] Import-Module $ModulePath -Force"
         }
         catch {
             Write-Host -ForegroundColor Red "[!] Import-Module $ModulePath -Force"
-            $_.Exception.Message
+            Write-Error $_.Exception.Message
             Break
         }
     }
     else {
         $ModulePath = "$env:TEMP\OSDCloudScriptsGUI\OSDCloudScriptsGUI-main\OSDCloudScriptsGUIbreakingtest.psm1"
         try {
-            Write-Host -ForegroundColor Green "[+] Import-Module $ModulePath -Force"
             Import-Module $ModulePath -Force -ErrorAction Stop
+            Write-Host -ForegroundColor Green "[+] Import-Module $ModulePath -Force"
         }
         catch {
             Write-Host -ForegroundColor Red "[!] Import-Module $ModulePath -Force"
-            $_.Exception.Message
+            Write-Error $_.Exception.Message
             Break
         }
     }

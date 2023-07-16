@@ -140,9 +140,11 @@
                 <RowDefinition Height="*" />
                 <!-- Row 7 GridLine -->
                 <RowDefinition Height="1" />
-                <!-- Row 8 Start Button -->
+                <!-- Row 8 Options Box -->
                 <RowDefinition Height="Auto" />
-                <!-- Row 9 Parameter -->
+                <!-- Row 9 GridLine -->
+                <RowDefinition Height="1" />
+                <!-- Row 10 Start Button -->
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
@@ -267,16 +269,68 @@
                 StrokeThickness="1"
                 Stretch="Uniform"></Line>
 <!-- Row 8 -->
-            <Label Grid.Row="8"
+            <StackPanel Grid.Row="8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    <Label Name="FilterLabel"
+                       Content="Name"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Foreground="#0096D6"
+                       Margin="0,5,0,5"
+                       Padding="2"
+                       Width="50"
+                       FlowDirection="LeftToRight" />
+                    <TextBox Name="ScriptFilter"
+                        Text=""
+                        AcceptsReturn="False"
+                        AcceptsTab="True"
+                        FontSize="16"
+                        Margin="5"
+                        Padding="10,2"
+                        Width = "Auto" />
+                    <Label Name="ContainsLabel"
+                       Content="Search"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Foreground="#0096D6"
+                       Margin="5,5,0,5"
+                       Padding="2"
+                       Width="80"
+                       FlowDirection="RightToLeft" />
+                    <TextBox Name="ScriptContains"
+                        Text=""
+                        AcceptsReturn="False"
+                        AcceptsTab="True"
+                        FontSize="16"
+                        Margin="5"
+                        Padding="10,2"
+                        Width = "Auto" />
+                </StackPanel>
+            </StackPanel>
+<!-- Row 9 GridLine-->
+            <Line Grid.Row="9"
+                X1="0"
+                Y1="0"
+                X2="1"
+                Y2="0"
+                Stroke="Gainsboro"
+                StrokeThickness="1"
+                Stretch="Uniform"></Line>
+<!-- Row 10 -->
+            <Label Grid.Row="10"
                Name="BrandingTitleControl"
-               Content="OSDCloudScriptsGUI"
+               Content="OSDCloud Scripts"
                FlowDirection="RightToLeft"
                FontSize="22"
                FontWeight="Bold"
                Foreground="#0096D6"
                HorizontalAlignment="Left"
-               VerticalAlignment="Center" />
-            <Button Grid.Row="8"
+               VerticalAlignment="Top" />
+            <Button Grid.Row="10"
                 Name="StartButton"
                 Content="Start"
                 FontSize="18"
@@ -285,7 +339,6 @@
                 Width="130"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom" />
-<!-- Row 9 Parameter -->
         </Grid>
     </DockPanel>
 </Window>

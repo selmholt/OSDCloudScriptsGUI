@@ -359,7 +359,7 @@ $formMainWindowControlStartButton.add_Click({
         $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
         Write-Host -ForegroundColor DarkCyan "Finding script parameters with Ast"
 
-        $Global:OSDScriptBlock.Ast.ParamBloc.Parameters | ForEach-Object {
+        $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
             Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
         }
         $Global:OSDScriptBlock.Ast.ScriptRequirements

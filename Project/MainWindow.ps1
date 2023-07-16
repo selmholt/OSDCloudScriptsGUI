@@ -327,6 +327,25 @@ $formMainWindowControlScriptContains.add_TextChanged({
 })
 $formMainWindowControlScriptIndex.add_SelectionChanged({
     Set-ScriptContent
+
+    # test AST
+    $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
+    $ScriptFile = 'OSDScript.ps1'
+    $ScriptPath = "$env:Temp\$ScriptFile"
+    
+    Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
+    $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
+
+    $Global:OSDScriptBlock = [scriptblock]::Create((Get-Content $ScriptPath -Raw))
+
+    $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
+    Write-Host -ForegroundColor DarkCyan "Finding script parameters with Ast"
+
+    $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
+        Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
+    }
+    $Global:OSDScriptBlock.Ast.ScriptRequirements
+
 })
 #================================================
 #   StartButton
@@ -354,6 +373,8 @@ $formMainWindowControlStartButton.add_Click({
         Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
         $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
  
+
+        <#
         $Global:OSDScriptBlock = [scriptblock]::Create((Get-Content $ScriptPath -Raw))
 
         $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
@@ -363,7 +384,7 @@ $formMainWindowControlStartButton.add_Click({
             Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
         }
         $Global:OSDScriptBlock.Ast.ScriptRequirements
-
+        #>
 
         #$Global:XamlWindow.Close()
         #Invoke-Command $Global:OSDScriptBlock

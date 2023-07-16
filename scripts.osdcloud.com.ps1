@@ -99,6 +99,16 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
         if (Test-Path $ModulePath) {
             Remove-Item $ModulePath -Recurse -Force
         }
+        # Copy Module
+        $SourceModuleRoot = Get-ChildItem -Path $DestinationPath -Directory | Select-Object -First 1 -ExpandProperty FullName
+        Copy-Item -Path $SourceModuleRoot -Destination $ModulePath -Recurse -Force -ErrorAction SilentlyContinue
+        if (Test-Path $ModulePath) {
+            Write-Host -ForegroundColor Green "[+] OSDCloudScriptsGUI Module copied to $ModulePath"
+        }
+        else {
+            Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI Module could not be copied to $ModulePath"
+            Break
+        }
     }
     else {
         $ModulePath = "$env:TEMP\OSDCloudScriptsGUI"
@@ -107,16 +117,6 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
         }
     }
 
-    # Copy Module
-    $SourceModuleRoot = Get-ChildItem -Path $DestinationPath -Directory | Select-Object -First 1 -ExpandProperty FullName
-    Copy-Item -Path $SourceModuleRoot -Destination $ModulePath -Recurse -Force -ErrorAction SilentlyContinue
-    if (Test-Path $ModulePath) {
-        Write-Host -ForegroundColor Green "[+] OSDCloudScriptsGUI Module copied to $ModulePath"
-    }
-    else {
-        Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI Module could not be copied to $ModulePath"
-        Break
-    }
     Import-Module $ModulePath -Force -Verbose
     Write-Host -ForegroundColor Green "[+] Start-OSDCloudScriptsGUI -Path $ScriptFiles"
 #endregion

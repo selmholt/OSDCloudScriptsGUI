@@ -109,15 +109,13 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
             Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI Module could not be copied to $ModulePath"
             Break
         }
+        Import-Module $ModulePath -Force -Verbose
     }
     else {
-        $ModulePath = "$env:TEMP\OSDCloudScriptsGUI"
-        if (Test-Path $ModulePath) {
-            Remove-Item $ModulePath -Recurse -Force
-        }
+        $ModulePath = "$env:TEMP\OSDCloudScriptsGUI\OSDCloudScriptsGUI-main"
+        Import-Module $ModulePath -Force -Verbose
     }
 
-    Import-Module $ModulePath -Force -Verbose
     Write-Host -ForegroundColor Green "[+] Start-OSDCloudScriptsGUI -Path $ScriptFiles"
 #endregion
 

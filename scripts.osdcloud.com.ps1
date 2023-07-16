@@ -3,7 +3,7 @@
 [CmdletBinding()]
 param()
 $ScriptName = 'scripts.osdcloud.com'
-$ScriptVersion = '23.7.16.5'
+$ScriptVersion = '23.7.16.6'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
 # OSDCloudScripts
@@ -12,7 +12,7 @@ $Url = 'https://github.com/OSDeploy/OSDCloudScripts/archive/refs/heads/main.zip'
 
 # OSDCloudScriptsGUI
 $GUIFileName = 'OSDCloudScriptsGUI.zip'
-$GUIUrl = 'https://github.com/OSDeploy/OSDCloudScripts.vs/archive/refs/heads/master.zip'
+$GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/main.zip'
 
 #region OSDCloudScripts
     $OutFile = Join-Path $env:TEMP $FileName

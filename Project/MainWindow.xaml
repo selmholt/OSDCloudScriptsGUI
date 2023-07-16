@@ -235,7 +235,7 @@
                 StrokeThickness="1"
                 Stretch="Uniform"></Line>
 <!-- Row 8 -->
-            <StackPanel Grid.Row="8"
+            <StackPanel Grid.Row="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal"

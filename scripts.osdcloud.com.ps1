@@ -3,7 +3,7 @@
 [CmdletBinding()]
 param()
 $ScriptName = 'scripts.osdcloud.com'
-$ScriptVersion = '23.7.12.1'
+$ScriptVersion = '23.7.16.1'
 
 # OSDCloudScripts
 $FileName = 'OSDCloudScripts.zip'
@@ -90,10 +90,21 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
         Break
     }
 
+
+    $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
+    
     # PowerShell Module
-    $ModulePath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\Modules\OSDCloudScriptsGUI"
-    if (Test-Path $ModulePath) {
-        Remove-Item $ModulePath -Recurse -Force
+    if ($isAdmin) {
+        $ModulePath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\Modules\OSDCloudScriptsGUI"
+        if (Test-Path $ModulePath) {
+            Remove-Item $ModulePath -Recurse -Force
+        }
+    }
+    else {
+        $ModulePath = "$env:TEMP\OSDCloudScriptsGUI"
+        if (Test-Path $ModulePath) {
+            Remove-Item $ModulePath -Recurse -Force
+        }
     }
 
     # Copy Module
@@ -106,11 +117,14 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
         Write-Host -ForegroundColor Red "[!] OSDCloudScriptsGUI Module could not be copied to $ModulePath"
         Break
     }
-    Import-Module OSDCloudScriptsGUI -Force
+    Import-Module $ModulePath -Force -Verbose
     Write-Host -ForegroundColor Green "[+] Start-OSDCloudScriptsGUI -Path $ScriptFiles"
 #endregion
 
-Write-Host -ForegroundColor Cyan "To start a new PowerShell session, type 'start powershell' and press enter"
-Write-Host -ForegroundColor Cyan "Start-OSDCloudScriptsGUI can be run in the new PowerShell window"
+
+if ($isAdmin) {
+    Write-Host -ForegroundColor Cyan "To start a new PowerShell session, type 'start powershell' and press enter"
+    Write-Host -ForegroundColor Cyan "Start-OSDCloudScriptsGUI can be run in the new PowerShell window"
+}
 
 Start-OSDCloudScriptsGUI -Path $ScriptFiles

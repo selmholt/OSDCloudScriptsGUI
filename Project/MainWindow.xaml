@@ -142,6 +142,8 @@
                 <RowDefinition Height="1" />
                 <!-- Row 8 Start Button -->
                 <RowDefinition Height="Auto" />
+                <!-- Row 9 Parameter -->
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
 <!-- Row 0 -->
@@ -283,6 +285,7 @@
                 Width="130"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom" />
+<!-- Row 9 Parameter -->
         </Grid>
     </DockPanel>
 </Window>

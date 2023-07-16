@@ -287,15 +287,6 @@
                 StrokeThickness="1"
                 Stretch="Uniform"></Line>
 <!-- Row 10 -->
-            <Label Grid.Row="10"
-               Name="BrandingTitleControl"
-               Content="OSDCloud Scripts"
-               FlowDirection="RightToLeft"
-               FontSize="22"
-               FontWeight="Bold"
-               Foreground="#0096D6"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
             <Button Grid.Row="10"
                 Name="StartButton"
                 Content="Start"

@@ -362,7 +362,7 @@ $formMainWindowControlStartButton.add_Click({
         $Global:OSDScriptBlock.Ast.ParamBloc.Parameters | ForEach-Object {
             Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
         }
-        Write-Host $Global:OSDScriptBlock.Ast.ScriptRequirements
+        $Global:OSDScriptBlock.Ast.ScriptRequirements
 
 
         #$Global:XamlWindow.Close()

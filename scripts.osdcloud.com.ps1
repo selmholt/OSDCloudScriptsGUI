@@ -125,6 +125,11 @@ else {
         Break
     }
 
+    # Set Excution Policy to RemoteSigned if $env:UserName is defaultuser0
+    if ($env:UserName -eq 'defaultuser0') {
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+        Write-Host -ForegroundColor Green "[+] Set-ExecutionPolicy to RemoteSigned for $env:UserName"
+    }
 
     $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
     

@@ -1,7 +1,7 @@
 #Requires -RunAsAdministrator
 <#
 .DESCRIPTION
-    Configure Windows Terminal with PowerShell as default shell
+    Configure the OSDCloudScriptsGUI PowerShell Module and start the OSDCloudScriptsGUI
 
 .EXAMPLE
     Invoke-Expression (Invoke-WebRequest -Uri https://scripts.osdcloud.com)
@@ -15,7 +15,7 @@
 
 .NOTES
     Author: David Segura
-    Modified: 2023-07-16
+    Modified: 2023-07-17
 #>
 [CmdletBinding()]
 param(
@@ -23,7 +23,7 @@ param(
     [System.String] $Repo = 'OSDCloudScripts'
 )
 $ScriptName = 'scripts.osdcloud.com'
-$ScriptVersion = '23.7.16.6'
+$ScriptVersion = '23.7.17.1'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
 $Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/$Owner/$Repo"

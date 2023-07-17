@@ -22,6 +22,9 @@ param(
     [System.String] $Owner = 'OSDeploy',
     [System.String] $Repo = 'OSDCloudScripts'
 )
+# Set ProgressPreference to SilentlyContinue
+$global:progressPreference = 'silentlyContinue'
+
 $ScriptName = 'scripts.osdcloud.com'
 $ScriptVersion = '23.7.17.1'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"

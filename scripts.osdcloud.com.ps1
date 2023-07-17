@@ -26,7 +26,7 @@ $ScriptName = 'scripts.osdcloud.com'
 $ScriptVersion = '23.7.16.6'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
-$Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/osdeploy/osd"
+$Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/$Owner/$Repo"
 
 if ($Repository) {
     Write-Host -ForegroundColor Green "[+] GitHub Repository $Owner/$Repo found"

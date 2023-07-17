@@ -328,25 +328,31 @@ $formMainWindowControlScriptContains.add_TextChanged({
 $formMainWindowControlScriptIndex.add_SelectionChanged({
     Set-ScriptContent
 
-    # Need to limit this to just PowerShell scripts
+    # David - Need to limit this to just PowerShell scripts, not MD or JSON files
     if ($Global:CurrentScript.Script -like "*.ps1") {
         # test AST
         $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
         $ScriptFile = 'OSDScript.ps1'
         $ScriptPath = "$env:Temp\$ScriptFile"
         
+        # David - Should display the working script name instead of repeating the "saving contents"
         Write-Host -ForegroundColor Gray $Global:CurrentScript.Script
         #Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
         $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
     
         $Global:OSDScriptBlock = [scriptblock]::Create((Get-Content $ScriptPath -Raw))
     
-        $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
+        $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false)
+        # Commenting out, not needed
         #Write-Host -ForegroundColor DarkCyan "Finding script parameters with Ast"
     
-        $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
-            Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
+        # David - No need to show Parameters if there are none
+        if ($Global:OSDScriptBlock.Ast.ParamBlock.Parameters) {
+            $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
+                Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
+            }
         }
+
         $Global:OSDScriptBlock.Ast.ScriptRequirements
     }
 })

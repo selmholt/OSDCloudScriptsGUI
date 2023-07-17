@@ -335,8 +335,6 @@ $formMainWindowControlScriptIndex.add_SelectionChanged({
         $ScriptFile = 'OSDScript.ps1'
         $ScriptPath = "$env:Temp\$ScriptFile"
         
-        # David - Should display the working script name instead of repeating the "saving contents"
-        Write-Host -ForegroundColor Gray $Global:CurrentScript.Script
         #Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
         $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
     
@@ -348,6 +346,10 @@ $formMainWindowControlScriptIndex.add_SelectionChanged({
     
         # David - No need to show Parameters if there are none
         if ($Global:OSDScriptBlock.Ast.ParamBlock.Parameters) {
+            
+            # David - Display the name of the script, then the Parameters
+            Write-Host -ForegroundColor Gray $Global:CurrentScript.Script
+
             $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
                 Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
             }

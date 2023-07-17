@@ -1,34 +1,62 @@
 #Requires -RunAsAdministrator
+<#
+.DESCRIPTION
+    Configure Windows Terminal with PowerShell as default shell
 
+.EXAMPLE
+    Invoke-Expression (Invoke-WebRequest -Uri https://scripts.osdcloud.com)
+
+.EXAMPLE
+    iex (irm scripts.osdcloud.com)
+
+.EXAMPLE
+    iex (irm scripts.osdcloud.com)
+    iex "& { $(irm scripts.osdcloud.com) } -Owner OSDeploy -Repo OSDCloudScripts"
+
+.NOTES
+    Author: David Segura
+    Modified: 2023-07-16
+#>
 [CmdletBinding()]
-param()
+param(
+    [System.String] $Owner = 'OSDeploy',
+    [System.String] $Repo = 'OSDCloudScripts'
+)
 $ScriptName = 'scripts.osdcloud.com'
 $ScriptVersion = '23.7.16.6'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
-# OSDCloudScripts
-$FileName = 'OSDCloudScripts.zip'
-$Url = 'https://github.com/OSDeploy/OSDCloudScripts/archive/refs/heads/main.zip'
+$Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/osdeploy/osd"
 
-# OSDCloudScriptsGUI
-$GUIFileName = 'OSDCloudScriptsGUI.zip'
-$GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/main.zip'
+if ($Repository) {
+    Write-Host -ForegroundColor Green "[+] GitHub Repository $Owner/$Repo found"
+}
+else {
+    Write-Host -ForegroundColor Red "[!] GitHub Repository $Owner/$Repo not found"
+    Break
+}
 
-#region OSDCloudScripts
-    $OutFile = Join-Path $env:TEMP $FileName
+# To download the zip
+# https://api.github.com/repos/$Owner/$Repo/zipball/REF
+
+#region ScriptRepo
+    $ScriptRepoFileName = "$Repo.zip"
+    $ScriptRepoUrl = "https://github.com/$Owner/$Repo/archive/refs/heads/$($Repository.default_branch).zip"
+
+    $OutFile = Join-Path $env:TEMP $ScriptRepoFileName
     # Remove existing Zip file
     if (Test-Path $OutFile) {
         Remove-Item $OutFile -Force
     }
 
     # Download Zip file
-    Invoke-WebRequest -Uri $Url -OutFile $OutFile
+    Invoke-WebRequest -Uri $ScriptRepoUrl -OutFile $OutFile
 
     if (Test-Path $OutFile) {
-        Write-Host -ForegroundColor Green "[+] OSDCloudScripts downloaded to $OutFile"
+        Write-Host -ForegroundColor Green "[+] Repo $Repo downloaded to $OutFile"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] OSDCloudScripts could not be downloaded"
+        Write-Host -ForegroundColor Red "[!] Repo $Repo could not be downloaded"
         Break
     }
 
@@ -40,33 +68,39 @@ $GUIUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/mai
     }
     Expand-Archive -Path $OutFile -DestinationPath $DestinationPath -Force
     if (Test-Path $DestinationPath) {
-        Write-Host -ForegroundColor Green "[+] OSDCloudScripts expanded to $DestinationPath"
+        Write-Host -ForegroundColor Green "[+] Repo $Repo expanded to $DestinationPath"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] OSDCloudScripts could not be expanded to $DestinationPath"
+        Write-Host -ForegroundColor Red "[!] Repo $Repo could not be expanded to $DestinationPath"
         Break
     }
 
     # Set Scripts Path
     $ScriptFiles = Get-ChildItem -Path $DestinationPath -Directory | Select-Object -First 1 -ExpandProperty FullName
     if (Test-Path $ScriptFiles) {
-        Write-Host -ForegroundColor Green "[+] OSDCloudScripts is set to $ScriptFiles"
+        Write-Host -ForegroundColor Green "[+] Repo $Repo is set to $ScriptFiles"
     }
     else {
-        Write-Host -ForegroundColor Red "[!] OSDCloudScripts could not be created at $ScriptFiles"
+        Write-Host -ForegroundColor Red "[!] Repo $Repo could not be created at $ScriptFiles"
         Break
     }
 #endregion
 
 #region OSDCloudScriptsGUI
-    $GUIOutFile = Join-Path $env:TEMP $GUIFileName
+
+
+# OSDCloudScriptsGUI
+    $ScriptGuiFileName = 'OSDCloudScriptsGUI.zip'
+    $ScriptGuiUrl = 'https://github.com/OSDeploy/OSDCloudScriptsGUI/archive/refs/heads/main.zip'
+
+    $GUIOutFile = Join-Path $env:TEMP $ScriptGuiFileName
     # Remove existing Zip file
     if (Test-Path $GUIOutFile) {
         Remove-Item $GUIOutFile -Force
     }
 
     # Download Zip file
-    Invoke-WebRequest -Uri $GUIUrl -OutFile $GUIOutFile
+    Invoke-WebRequest -Uri $ScriptGuiUrl -OutFile $GUIOutFile
 
     if (Test-Path $GUIOutFile) {
         Write-Host -ForegroundColor Green "[+] OSDCloudScriptsGUI downloaded to $GUIOutFile"

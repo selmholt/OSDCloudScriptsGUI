@@ -23,7 +23,7 @@ param(
     [System.String] $Repo = 'OSDCloudScripts'
 )
 # Set ProgressPreference to SilentlyContinue
-$global:progressPreference = 'silentlyContinue'
+$ProgressPreference = 'SilentlyContinue'
 
 $ScriptName = 'scripts.osdcloud.com'
 $ScriptVersion = '23.7.17.1'

@@ -15,7 +15,7 @@
 
 .NOTES
     Author: David Segura
-    Modified: 2023-07-17
+    -Modified: 2023-07-24
 #>
 [CmdletBinding()]
 param(
@@ -26,7 +26,7 @@ param(
 $ProgressPreference = 'SilentlyContinue'
 
 $ScriptName = 'scripts.osdcloud.com'
-$ScriptVersion = '23.7.17.1'
+$ScriptVersion = '23.7.24.1'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
 $Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/$Owner/$Repo"

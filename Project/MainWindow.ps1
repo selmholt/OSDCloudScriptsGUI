@@ -416,15 +416,15 @@ $formMainWindowControlStartButton.add_Click({
     
             if ($global:PwshCore -eq $true) {
                 Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-                Start-Process -WorkingDirectory "$env:Temp" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait
+                Start-Process -WorkingDirectory "$env:Temp" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
             }
             else {
                 Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
                 if ($Global:OSDScriptBlock -match '-RunAsAdministrator') {
-                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit -Verb RunAs',"-File `"$ScriptFile`"" -Wait
+                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Verb RunAs
                 }
                 else {
-                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait
+                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
                 }
             }
             #Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""

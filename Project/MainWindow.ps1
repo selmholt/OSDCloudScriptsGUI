@@ -376,7 +376,7 @@ $formMainWindowControlStartButton.add_Click({
             $ScriptFile = 'OSDScript.cmd'
             $ScriptPath = "$env:Temp\$ScriptFile"
             $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding ascii -Width 2000 -Force
-            Start-Process cmd.exe -ArgumentList "/k","$ScriptPath"
+            Start-Process "$env:comspec" -ArgumentList "/k","$ScriptPath"
         }
     }
     else {
@@ -420,8 +420,8 @@ $formMainWindowControlStartButton.add_Click({
             }
             else {
                 Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-                if ($Global:OSDScriptBlock -match 'RunAsAdministrator') {
-                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Verb RunAs
+                if ($Global:OSDScriptBlock -match '-RunAsAdministrator') {
+                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit -Verb RunAs',"-File `"$ScriptFile`"" -Wait
                 }
                 else {
                     Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait

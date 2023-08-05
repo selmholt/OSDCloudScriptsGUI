@@ -309,6 +309,11 @@ function Set-ScriptContent {
         $formMainWindowControlScriptContent.IsReadOnly = $true
         $formMainWindowControlStartButton.Visibility = "Collapsed"
     }
+    elseif ($Global:CurrentScript.Script -like "*.cmd") {
+        $formMainWindowControlScriptContent.Foreground = 'Black'
+        $formMainWindowControlScriptContent.IsReadOnly = $false
+        $formMainWindowControlStartButton.Visibility = "Visible"
+    }
     else {
         $formMainWindowControlScriptContent.Foreground = 'Blue'
         $formMainWindowControlScriptContent.IsReadOnly = $false
@@ -354,7 +359,6 @@ $formMainWindowControlScriptIndex.add_SelectionChanged({
                 Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
             }
         }
-
         $Global:OSDScriptBlock.Ast.ScriptRequirements
     }
 })
@@ -365,52 +369,67 @@ $formMainWindowControlStartButton.add_Click({
     #$formMainWindow.Close()
     #Show-PowershellWindow
 
-    Write-Host -ForegroundColor Cyan "Start-Process"
-    $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
-
-    if ($Global:OSDScriptBlock) {
-        <#
-        Review these lines
-
-        if ($ScriptSelectionControl.SelectedValue -like "*#Requires -PSEdition Core*")  {
-             Write-Host -ForegroundColor DarkCyan "PowerShell Core detected"
-             $global:PwshCore = $true
-         }
-        #>
-
-        $ScriptFile = 'OSDScript.ps1'
-        $ScriptPath = "$env:Temp\$ScriptFile"
-        
-        Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
-        $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
- 
-
-        <#
-        $Global:OSDScriptBlock = [scriptblock]::Create((Get-Content $ScriptPath -Raw))
-
-        $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
-        Write-Host -ForegroundColor DarkCyan "Finding script parameters with Ast"
-
-        $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
-            Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
+    if ($Global:CurrentScript.Script -like "*.cmd") {
+        Write-Host -ForegroundColor Cyan "CMD File"
+        $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
+        if ($Global:OSDScriptBlock) {
+            $ScriptFile = 'OSDScript.cmd'
+            $ScriptPath = "$env:Temp\$ScriptFile"
+            $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding ascii -Width 2000 -Force
+            Start-Process cmd.exe -ArgumentList "/k","$ScriptPath"
         }
-        $Global:OSDScriptBlock.Ast.ScriptRequirements
-        #>
-
-        #$Global:XamlWindow.Close()
-        #Invoke-Command $Global:OSDScriptBlock
-        #Start-Process PowerShell.exe -ArgumentList "-NoExit Invoke-Command -ScriptBlock {$Global:OSDScriptBlock}"
-
-        if ($global:PwshCore -eq $true) {
-            Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-            Start-Process -WorkingDirectory "$env:Temp" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait
+    }
+    else {
+        Write-Host -ForegroundColor Cyan "PowerShell"
+        $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
+        if ($Global:OSDScriptBlock) {
+            <#
+            Review these lines
+    
+            if ($ScriptSelectionControl.SelectedValue -like "*#Requires -PSEdition Core*")  {
+                 Write-Host -ForegroundColor DarkCyan "PowerShell Core detected"
+                 $global:PwshCore = $true
+             }
+            #>
+    
+            $ScriptFile = 'OSDScript.ps1'
+            $ScriptPath = "$env:Temp\$ScriptFile"
+            
+            Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
+            $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
+     
+            <#
+            $Global:OSDScriptBlock = [scriptblock]::Create((Get-Content $ScriptPath -Raw))
+    
+            $Global:OSDScriptBlock.Ast.findAll({$args[0] -is [System.Management.Automation.Language.ParamBlockAst]},$false) 
+            Write-Host -ForegroundColor DarkCyan "Finding script parameters with Ast"
+    
+            $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
+                Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
+            }
+            $Global:OSDScriptBlock.Ast.ScriptRequirements
+            #>
+    
+            #$Global:XamlWindow.Close()
+            #Invoke-Command $Global:OSDScriptBlock
+            #Start-Process PowerShell.exe -ArgumentList "-NoExit Invoke-Command -ScriptBlock {$Global:OSDScriptBlock}"
+    
+            if ($global:PwshCore -eq $true) {
+                Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
+                Start-Process -WorkingDirectory "$env:Temp" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait
+            }
+            else {
+                Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
+                if ($Global:OSDScriptBlock -match 'RunAsAdministrator') {
+                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Verb RunAs
+                }
+                else {
+                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait
+                }
+            }
+            #Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
+            #Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
         }
-        else {
-            Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-            Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Wait
-        }
-        #Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-        #Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
     }
 })
 #================================================

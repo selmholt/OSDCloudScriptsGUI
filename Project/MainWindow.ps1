@@ -338,7 +338,7 @@ $formMainWindowControlScriptIndex.add_SelectionChanged({
         # test AST
         $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
         $ScriptFile = 'OSDScript.ps1'
-        $ScriptPath = "$env:Temp\$ScriptFile"
+        $ScriptPath = "$env:TEMP\$ScriptFile"
         
         #Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
         $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
@@ -374,7 +374,7 @@ $formMainWindowControlStartButton.add_Click({
         $Global:OSDScriptBlock = [scriptblock]::Create($formMainWindowControlScriptContent.Text)
         if ($Global:OSDScriptBlock) {
             $ScriptFile = 'OSDScript.cmd'
-            $ScriptPath = "$env:Temp\$ScriptFile"
+            $ScriptPath = "$env:TEMP\$ScriptFile"
             $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding ascii -Width 2000 -Force
             Start-Process "$env:comspec" -ArgumentList "/k","$ScriptPath"
         }
@@ -393,7 +393,7 @@ $formMainWindowControlStartButton.add_Click({
             #>
     
             $ScriptFile = 'OSDScript.ps1'
-            $ScriptPath = "$env:Temp\$ScriptFile"
+            $ScriptPath = "$env:TEMP\$ScriptFile"
             
             Write-Host -ForegroundColor DarkGray "Saving contents of `$Global:OSDScriptBlock` to $ScriptPath"
             $Global:OSDScriptBlock | Out-File $ScriptPath -Encoding utf8 -Width 2000 -Force
@@ -415,20 +415,21 @@ $formMainWindowControlStartButton.add_Click({
             #Start-Process PowerShell.exe -ArgumentList "-NoExit Invoke-Command -ScriptBlock {$Global:OSDScriptBlock}"
     
             if ($global:PwshCore -eq $true) {
-                Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-                Start-Process -WorkingDirectory "$env:Temp" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
+                Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:TEMP`" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
+                Start-Process -WorkingDirectory "$env:TEMP" -FilePath pwsh.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
             }
             else {
-                Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
+                Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:TEMP`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
                 if ($Global:OSDScriptBlock -match '-RunAsAdministrator') {
-                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`"" -Verb RunAs
+                    # Want to add a RunAs, but that will mess up Temp since that path will change maybe
+                    Start-Process -WorkingDirectory "$env:TEMP" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
                 }
                 else {
-                    Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
+                    Start-Process -WorkingDirectory "$env:TEMP" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
                 }
             }
-            #Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:Temp`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
-            #Start-Process -WorkingDirectory "$env:Temp" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
+            #Write-Host -ForegroundColor DarkCyan "Start-Process -WorkingDirectory `"$env:TEMP`" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',`"-File `"$ScriptFile`"`""
+            #Start-Process -WorkingDirectory "$env:TEMP" -FilePath PowerShell.exe -ArgumentList '-NoLogo -NoExit',"-File `"$ScriptFile`""
         }
     }
 })

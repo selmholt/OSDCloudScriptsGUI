@@ -358,8 +358,15 @@ $formMainWindowControlScriptIndex.add_SelectionChanged({
             $Global:OSDScriptBlock.Ast.ParamBlock.Parameters | ForEach-Object {
                 Write-Host -ForegroundColor DarkGray "Parameter: $($_.Name)"   
             }
+            if ($Global:OSDScriptDebug -eq $true) {
+                Write-Host -ForegroundColor DarkGray "Debug: $Global:OSDScriptDebug"
+                $formMainWindow.Height = 600
+
+                
+            
+            }
         }
-        $Global:OSDScriptBlock.Ast.ScriptRequirements
+        #$Global:OSDScriptBlock.Ast.ScriptRequirements
     }
 })
 #================================================

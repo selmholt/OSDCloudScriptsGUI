@@ -15,7 +15,7 @@
 
 .NOTES
     Author: David Segura
-    Modified: 2023-09-27
+    Modified: 2023-09-28
 #>
 [CmdletBinding()]
 param(
@@ -26,8 +26,15 @@ param(
 $ProgressPreference = 'SilentlyContinue'
 
 $ScriptName = 'scripts.osdcloud.com'
-$ScriptVersion = '23.9.27.1'
+$ScriptVersion = '23.9.28.1'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
+
+$ExecutionPolicy = Get-ExecutionPolicy -Scope CurrentUser
+if ($ExecutionPolicy -eq 'Restricted') {
+    Write-Host -ForegroundColor Red "[!] ExecutionPolicy is Restricted"
+    Write-Host -ForegroundColor Cyan "[i] Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+}
 
 $Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/$Owner/$Repo"
 

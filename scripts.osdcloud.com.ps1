@@ -29,11 +29,11 @@ $ScriptName = 'scripts.osdcloud.com'
 $ScriptVersion = '23.9.28.1'
 Write-Host -ForegroundColor Cyan "[i] $ScriptName version $ScriptVersion"
 
-$ExecutionPolicy = Get-ExecutionPolicy -Scope CurrentUser
+$ExecutionPolicy = Get-ExecutionPolicy
 if ($ExecutionPolicy -eq 'Restricted') {
     Write-Host -ForegroundColor Red "[!] ExecutionPolicy is Restricted"
-    Write-Host -ForegroundColor Cyan "[i] Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+    Write-Host -ForegroundColor Cyan "[i] Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
 }
 
 $Repository = Invoke-RestMethod -Uri "https://api.github.com/repos/$Owner/$Repo"
